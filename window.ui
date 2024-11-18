@@ -41,16 +41,16 @@
      </rect>
     </property>
     <property name="layoutDirection">
-     <enum>Qt::LeftToRight</enum>
+     <enum>Qt::LayoutDirection::LeftToRight</enum>
     </property>
     <property name="styleSheet">
      <string notr="true">QTabBar::tab { height: 100px; width: 100px}</string>
     </property>
     <property name="tabPosition">
-     <enum>QTabWidget::West</enum>
+     <enum>QTabWidget::TabPosition::West</enum>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>3</number>
     </property>
     <property name="iconSize">
      <size>
@@ -83,14 +83,14 @@
      <widget class="QLabel" name="label_LGNSSHOME">
       <property name="geometry">
        <rect>
-        <x>380</x>
+        <x>340</x>
         <y>260</y>
-        <width>91</width>
+        <width>201</width>
         <height>41</height>
        </rect>
       </property>
       <property name="text">
-       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;h1&gt;LGNSS&lt;/h1&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;h1 style=&quot; margin-top:18px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:xx-large; font-weight:700;&quot;&gt;openEarthCAD&lt;/span&gt;&lt;/h1&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
      </widget>
      <widget class="QLabel" name="label">
@@ -103,7 +103,7 @@
        </rect>
       </property>
       <property name="text">
-       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;© Copyright 2021, 2022. See the Licensing tab under the &lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:700;&quot;&gt;Help&lt;/span&gt; module on the left side for more information.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;© Copyright 2021, 2022, 2024. See the Licensing tab under the &lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:700;&quot;&gt;Help&lt;/span&gt; module on the left side for more information.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
      </widget>
      <widget class="QPushButton" name="systemExit">
@@ -150,7 +150,7 @@
        </rect>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="tab">
        <attribute name="title">
@@ -188,9 +188,11 @@
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;meta charset=&quot;utf-8&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 hr { height: 1px; border-width: 0; }
+li.unchecked::marker { content: &quot;\2610&quot;; }
+li.checked::marker { content: &quot;\2612&quot;; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Noto Sans'; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:25px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; background-color:#fcfcfc;&quot;&gt;&lt;span style=&quot; font-family:'Open Sans','sans-serif'; font-size:14px; color:#444444; background-color:#fcfcfc;&quot;&gt;Copyright 2021, 2022 Alec Bloss. &lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:25px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; background-color:#fcfcfc;&quot;&gt;&lt;span style=&quot; font-family:'Open Sans','sans-serif'; font-size:14px; color:#444444; background-color:#fcfcfc;&quot;&gt;Libranext Computer Systems is a fictitious name of Alec Bloss Varied Industries, LLC, and is authorized by the copyright holder to be the licensor of this software. Alec Bloss Varied Industries, LLC, dba Libranext Computer Systems, licenses this software to you under the Modified BSD license, also known as the 3-clause BSD license.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:25px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; background-color:#fcfcfc;&quot;&gt;&lt;span style=&quot; font-family:'Open Sans','sans-serif'; font-size:14px; color:#444444; background-color:#fcfcfc;&quot;&gt;Copyright 2021, 2022 Alec Bloss&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:25px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; background-color:#fcfcfc;&quot;&gt;&lt;span style=&quot; font-family:'Open Sans','sans-serif'; font-size:14px; color:#444444; background-color:#fcfcfc;&quot;&gt;Copyright 2024 Informed Technology Solutions, LLC&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:25px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; background-color:#fcfcfc;&quot;&gt;&lt;span style=&quot; font-family:'Open Sans','sans-serif'; font-size:14px; color:#444444; background-color:#fcfcfc;&quot;&gt;Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:25px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; background-color:#fcfcfc;&quot;&gt;&lt;span style=&quot; font-family:'Open Sans','sans-serif'; font-size:14px; color:#444444; background-color:#fcfcfc;&quot;&gt;1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:25px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; background-color:#fcfcfc;&quot;&gt;&lt;span style=&quot; font-family:'Open Sans','sans-serif'; font-size:14px; color:#444444; background-color:#fcfcfc;&quot;&gt;2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.&lt;/span&gt;&lt;/p&gt;
@@ -208,7 +210,7 @@ hr { height: 1px; border-width: 0; }
          </rect>
         </property>
         <property name="text">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;LGNSS is provided to the general public under an open-source license. LGNSS also makes use of other open-source software. &lt;/p&gt;&lt;p&gt;These may be licensed under different, but compatible, open-source licenses.&lt;br/&gt;&lt;/p&gt;&lt;p&gt;LGNSS uses the open-source Qt toolkit, version 6, and is primarily written in Python 3.&lt;br/&gt;&lt;br/&gt;Many graphics/images were used from &lt;a href=&quot;https://openclipart.org/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#2980b9;&quot;&gt;openclipart.org&lt;/span&gt;&lt;/a&gt;. These images are either under the public domain or the&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;http://creativecommons.org/publicdomain/zero/1.0/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#2980b9;&quot;&gt;Creative Commons Zero 1.0 Public Domain License&lt;/span&gt;&lt;/a&gt;. All other images are released to the public domain, with the exception of the Libranext &lt;/p&gt;&lt;p&gt;&amp;quot;L&amp;quot; logo and its variations.&lt;br/&gt;&lt;br/&gt;While we don't restrict these use cases through licensing, &lt;span style=&quot; font-weight:700;&quot;&gt;we strongly condemn&lt;/span&gt; the unethical use of this software, such as in military &lt;/p&gt;&lt;p&gt;applications, warfare, or nuclear weapons. Libranext Computer Systems will &lt;span style=&quot; font-weight:700;&quot;&gt;NOT&lt;/span&gt;, under any circumstances, knowingly provide support&lt;/p&gt;&lt;p&gt;or technical assistance in these use cases.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;openEarthCAD is provided to the general public under an open-source license. openEarthCAD also makes use of other open-source software. &lt;/p&gt;&lt;p&gt;These may be licensed under different, but compatible, open-source licenses.&lt;br/&gt;&lt;/p&gt;&lt;p&gt;openEarthCAD uses the open-source Qt toolkit, version 6, and is primarily written in Python 3.&lt;br/&gt;&lt;br/&gt;Many graphics/images were used from &lt;a href=&quot;https://openclipart.org/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#2980b9;&quot;&gt;openclipart.org&lt;/span&gt;&lt;/a&gt;. These images are either under the public domain or the&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;http://creativecommons.org/publicdomain/zero/1.0/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#2980b9;&quot;&gt;Creative Commons Zero 1.0 Public Domain License&lt;/span&gt;&lt;/a&gt;. All other images are released to the public domain, with the exception of the Libranext &lt;/p&gt;&lt;p&gt;&amp;quot;L&amp;quot; logo and its variations.&lt;br/&gt;&lt;br/&gt;While we don't restrict these use cases through licensing, &lt;span style=&quot; font-weight:700;&quot;&gt;we strongly condemn&lt;/span&gt; the unethical use of this software, such as in military &lt;/p&gt;&lt;p&gt;applications, warfare, or nuclear weapons. &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
        </widget>
       </widget>
@@ -233,7 +235,7 @@ hr { height: 1px; border-width: 0; }
        </rect>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="tab_Implements">
        <attribute name="title">
@@ -262,10 +264,10 @@ hr { height: 1px; border-width: 0; }
          </rect>
         </property>
         <property name="frameShape">
-         <enum>QFrame::StyledPanel</enum>
+         <enum>QFrame::Shape::StyledPanel</enum>
         </property>
         <property name="horizontalScrollBarPolicy">
-         <enum>Qt::ScrollBarAlwaysOff</enum>
+         <enum>Qt::ScrollBarPolicy::ScrollBarAlwaysOff</enum>
         </property>
        </widget>
        <widget class="QFrame" name="frame_2">
@@ -278,10 +280,10 @@ hr { height: 1px; border-width: 0; }
          </rect>
         </property>
         <property name="frameShape">
-         <enum>QFrame::StyledPanel</enum>
+         <enum>QFrame::Shape::StyledPanel</enum>
         </property>
         <property name="frameShadow">
-         <enum>QFrame::Raised</enum>
+         <enum>QFrame::Shadow::Raised</enum>
         </property>
         <widget class="QLabel" name="label_15">
          <property name="geometry">
@@ -342,10 +344,10 @@ hr { height: 1px; border-width: 0; }
          </rect>
         </property>
         <property name="frameShape">
-         <enum>QFrame::StyledPanel</enum>
+         <enum>QFrame::Shape::StyledPanel</enum>
         </property>
         <property name="frameShadow">
-         <enum>QFrame::Raised</enum>
+         <enum>QFrame::Shadow::Raised</enum>
         </property>
         <widget class="QLabel" name="label_17">
          <property name="geometry">
@@ -473,10 +475,10 @@ hr { height: 1px; border-width: 0; }
          </rect>
         </property>
         <property name="frameShape">
-         <enum>QFrame::StyledPanel</enum>
+         <enum>QFrame::Shape::StyledPanel</enum>
         </property>
         <property name="frameShadow">
-         <enum>QFrame::Raised</enum>
+         <enum>QFrame::Shadow::Raised</enum>
         </property>
         <widget class="QLabel" name="label_12">
          <property name="geometry">
@@ -544,10 +546,10 @@ hr { height: 1px; border-width: 0; }
          </rect>
         </property>
         <property name="frameShape">
-         <enum>QFrame::StyledPanel</enum>
+         <enum>QFrame::Shape::StyledPanel</enum>
         </property>
         <property name="frameShadow">
-         <enum>QFrame::Raised</enum>
+         <enum>QFrame::Shadow::Raised</enum>
         </property>
         <widget class="QFrame" name="frame_5">
          <property name="geometry">
@@ -559,10 +561,10 @@ hr { height: 1px; border-width: 0; }
           </rect>
          </property>
          <property name="frameShape">
-          <enum>QFrame::StyledPanel</enum>
+          <enum>QFrame::Shape::StyledPanel</enum>
          </property>
          <property name="frameShadow">
-          <enum>QFrame::Raised</enum>
+          <enum>QFrame::Shadow::Raised</enum>
          </property>
          <widget class="QLabel" name="label_19">
           <property name="geometry">
@@ -1007,10 +1009,10 @@ hr { height: 1px; border-width: 0; }
           </rect>
          </property>
          <property name="frameShape">
-          <enum>QFrame::StyledPanel</enum>
+          <enum>QFrame::Shape::StyledPanel</enum>
          </property>
          <property name="frameShadow">
-          <enum>QFrame::Raised</enum>
+          <enum>QFrame::Shadow::Raised</enum>
          </property>
          <widget class="QLabel" name="label_20">
           <property name="geometry">
@@ -1452,10 +1454,10 @@ hr { height: 1px; border-width: 0; }
           </rect>
          </property>
          <property name="frameShape">
-          <enum>QFrame::StyledPanel</enum>
+          <enum>QFrame::Shape::StyledPanel</enum>
          </property>
          <property name="frameShadow">
-          <enum>QFrame::Raised</enum>
+          <enum>QFrame::Shadow::Raised</enum>
          </property>
          <widget class="QLabel" name="label_21">
           <property name="geometry">
@@ -1913,9 +1915,9 @@ hr { height: 1px; border-width: 0; }
         </property>
        </widget>
       </widget>
-      <widget class="QWidget" name="tab_Orientation">
+      <widget class="QWidget" name="tab_Plugins">
        <attribute name="title">
-        <string>Orientations</string>
+        <string>Plugins</string>
        </attribute>
       </widget>
       <widget class="QWidget" name="tab_Control">
@@ -1932,10 +1934,10 @@ hr { height: 1px; border-width: 0; }
          </rect>
         </property>
         <property name="frameShape">
-         <enum>QFrame::StyledPanel</enum>
+         <enum>QFrame::Shape::StyledPanel</enum>
         </property>
         <property name="frameShadow">
-         <enum>QFrame::Raised</enum>
+         <enum>QFrame::Shadow::Raised</enum>
         </property>
         <widget class="QLabel" name="label_49">
          <property name="geometry">
@@ -1956,7 +1958,7 @@ hr { height: 1px; border-width: 0; }
           <bool>true</bool>
          </property>
          <property name="alignment">
-          <set>Qt::AlignCenter</set>
+          <set>Qt::AlignmentFlag::AlignCenter</set>
          </property>
         </widget>
         <widget class="QLabel" name="label_50">
@@ -2059,10 +2061,10 @@ hr { height: 1px; border-width: 0; }
          </rect>
         </property>
         <property name="frameShape">
-         <enum>QFrame::StyledPanel</enum>
+         <enum>QFrame::Shape::StyledPanel</enum>
         </property>
         <property name="horizontalScrollBarPolicy">
-         <enum>Qt::ScrollBarAlwaysOff</enum>
+         <enum>Qt::ScrollBarPolicy::ScrollBarAlwaysOff</enum>
         </property>
        </widget>
        <widget class="QLabel" name="label_14">
@@ -2109,10 +2111,10 @@ hr { height: 1px; border-width: 0; }
          </rect>
         </property>
         <property name="frameShape">
-         <enum>QFrame::StyledPanel</enum>
+         <enum>QFrame::Shape::StyledPanel</enum>
         </property>
         <property name="frameShadow">
-         <enum>QFrame::Raised</enum>
+         <enum>QFrame::Shadow::Raised</enum>
         </property>
         <widget class="QLabel" name="label_4">
          <property name="geometry">
@@ -2252,7 +2254,7 @@ hr { height: 1px; border-width: 0; }
           </rect>
          </property>
          <property name="orientation">
-          <enum>Qt::Horizontal</enum>
+          <enum>Qt::Orientation::Horizontal</enum>
          </property>
         </widget>
         <widget class="QTextBrowser" name="G1D_DisplayCutFill">
@@ -2398,10 +2400,10 @@ hr { height: 1px; border-width: 0; }
        </rect>
       </property>
       <property name="frameShape">
-       <enum>QFrame::StyledPanel</enum>
+       <enum>QFrame::Shape::StyledPanel</enum>
       </property>
       <property name="frameShadow">
-       <enum>QFrame::Raised</enum>
+       <enum>QFrame::Shadow::Raised</enum>
       </property>
       <widget class="QLabel" name="label_43">
        <property name="geometry">
@@ -2422,7 +2424,7 @@ hr { height: 1px; border-width: 0; }
         <bool>true</bool>
        </property>
        <property name="alignment">
-        <set>Qt::AlignCenter</set>
+        <set>Qt::AlignmentFlag::AlignCenter</set>
        </property>
       </widget>
       <widget class="QLabel" name="label_44">
@@ -2460,10 +2462,10 @@ hr { height: 1px; border-width: 0; }
        </rect>
       </property>
       <property name="frameShape">
-       <enum>QFrame::StyledPanel</enum>
+       <enum>QFrame::Shape::StyledPanel</enum>
       </property>
       <property name="frameShadow">
-       <enum>QFrame::Raised</enum>
+       <enum>QFrame::Shadow::Raised</enum>
       </property>
       <widget class="QLabel" name="label_45">
        <property name="geometry">
@@ -2484,7 +2486,7 @@ hr { height: 1px; border-width: 0; }
         <bool>true</bool>
        </property>
        <property name="alignment">
-        <set>Qt::AlignCenter</set>
+        <set>Qt::AlignmentFlag::AlignCenter</set>
        </property>
       </widget>
       <widget class="QLabel" name="label_46">
@@ -2522,10 +2524,10 @@ hr { height: 1px; border-width: 0; }
        </rect>
       </property>
       <property name="frameShape">
-       <enum>QFrame::StyledPanel</enum>
+       <enum>QFrame::Shape::StyledPanel</enum>
       </property>
       <property name="frameShadow">
-       <enum>QFrame::Raised</enum>
+       <enum>QFrame::Shadow::Raised</enum>
       </property>
       <widget class="QLabel" name="label_47">
        <property name="geometry">
@@ -2546,7 +2548,7 @@ hr { height: 1px; border-width: 0; }
         <bool>true</bool>
        </property>
        <property name="alignment">
-        <set>Qt::AlignCenter</set>
+        <set>Qt::AlignmentFlag::AlignCenter</set>
        </property>
       </widget>
       <widget class="QLabel" name="label_48">
