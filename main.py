@@ -142,6 +142,7 @@ if __name__ == "__main__":
     app.processEvents()
 
 window = MainWindow()
+window.setWindowFlags(QtCore.Qt.FramelessWindowHint)
 window.show()
 splash.finish(window)
 app.exec()
