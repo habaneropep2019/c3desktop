@@ -4,7 +4,7 @@
 
 import sys
 from PySide6 import QtCore, QtWidgets, QtGui
-from PySide6.QtWidgets import QApplication, QMainWindow, QMenuBar, QLabel
+from PySide6.QtWidgets import QApplication, QMainWindow, QMenuBar, QLabel, QDockWidget, QListWidget
 from PySide6.QtGui import QAction
 from PySide6.QtCore import Qt
 
@@ -14,7 +14,9 @@ class MainWindow(QMainWindow):
 		
 		self.setWindowTitle("openEarthCAD Engineer")
 		
-		self.setMinimumSize(800, 600)
+		self.setMinimumSize(1280, 900)
+		
+		self.dock_windows()
 		
 		# Main Central Widget
 		centralLabel = QLabel("This is the main widget")
@@ -83,6 +85,45 @@ class MainWindow(QMainWindow):
 		actionLayerImport = QAction("Import Layer", self)
 		actionLayerImport.setStatusTip("Import Layer from various formats")
 		filemenu.addAction(actionLayerImport)
+		
+	def dock_windows(self):
+		# Docked window: Plugins list
+		pluginDock = QDockWidget("Plugins", self)
+		pluginDock.setAllowedAreas(Qt.LeftDockWidgetArea | Qt.RightDockWidgetArea)
+		self._plugins_list_ = QListWidget(pluginDock)
+		self._plugins_list_.addItems((
+			"Waterway Feature",
+			"Ditch Feature",
+			"Pad Feature",
+			"Surface Feature"))
+		pluginDock.setWidget(self._plugins_list_)
+		self.addDockWidget(Qt.LeftDockWidgetArea, pluginDock)
+		
+		# Docked window: Attributes Editor
+		pluginDock = QDockWidget("Attribute Editor", self)
+		pluginDock.setAllowedAreas(Qt.LeftDockWidgetArea | Qt.RightDockWidgetArea)
+		self._attribute_editor_ = QLabel("No feature selected!")
+		pluginDock.setWidget(self._attribute_editor_)
+		self.addDockWidget(Qt.LeftDockWidgetArea, pluginDock)
+		
+		# Docked window: Layers list
+		pluginDock = QDockWidget("Layers", self)
+		pluginDock.setAllowedAreas(Qt.LeftDockWidgetArea | Qt.RightDockWidgetArea)
+		self._layer_list_ = QListWidget(pluginDock)
+		self._layer_list_.addItems((
+			"Project Layer",
+			"Main Benchmark",
+			"Design Topo",
+			"Measured Topo"))
+		pluginDock.setWidget(self._layer_list_)
+		self.addDockWidget(Qt.RightDockWidgetArea, pluginDock)
+		
+		# Docked window: Legend
+		pluginDock = QDockWidget("Legend", self)
+		pluginDock.setAllowedAreas(Qt.LeftDockWidgetArea | Qt.RightDockWidgetArea)
+		self._legend_ = QLabel("No legend available")
+		pluginDock.setWidget(self._legend_)
+		self.addDockWidget(Qt.RightDockWidgetArea, pluginDock)
 		
 app = QApplication(sys.argv)
 
