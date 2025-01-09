@@ -1,22 +1,35 @@
-# (C) Copyright 2021, 2022 Alec Bloss 
 # (C) Copyright 2024 Informed Technology Solutions, LLC 
 # SPDX-License-Identifier: BSD-3-Clause
 
 import sys
 from PySide6 import QtCore, QtWidgets, QtGui
-from PySide6.QtWidgets import QApplication, QMainWindow, QMenuBar, QLabel, QDockWidget, QListWidget
+from PySide6.QtWidgets import QApplication, QMainWindow, QMenuBar, QLabel, QDockWidget, QListWidget, QDialog, QPushButton, QFileDialog
 from PySide6.QtGui import QAction
 from PySide6.QtCore import Qt
+from plugins import *
+from about_help import *
+from globals import *
+from projectWizard import *
 
 class MainWindow(QMainWindow):
 	def __init__(self):
 		super().__init__()
+		
+		OEapplication()
 		
 		self.setWindowTitle("openEarthCAD Engineer")
 		
 		self.setMinimumSize(1280, 900)
 		
 		self.dock_windows()
+		
+		EnabledPlugins()
+		
+		def openProjectFile(self):
+			global project_name
+			project_name = QFileDialog.getOpenFileName(None, "Open Project", "", "Layer Files (*.lyr)")
+			print(project_name[0])
+			# TODO: Signal a bunch of stuff when a project file is opened. Save an existing one if opened already.
 		
 		# Main Central Widget
 		centralLabel = QLabel("This is the main widget")
@@ -33,10 +46,12 @@ class MainWindow(QMainWindow):
 		
 		actionPrjNew = QAction("New Project", self)
 		actionPrjNew.setStatusTip("Create a new Project")
+		actionPrjNew.triggered.connect(newProject_Wizard)
 		filemenu.addAction(actionPrjNew)
 		
 		actionPrjOpen = QAction("Open Project", self)
 		actionPrjOpen.setStatusTip("Open a project")
+		actionPrjOpen.triggered.connect(openProjectFile)
 		filemenu.addAction(actionPrjOpen)
 		
 		actionPrjExport = QAction("Export Project", self)
@@ -86,6 +101,26 @@ class MainWindow(QMainWindow):
 		actionLayerImport.setStatusTip("Import Layer from various formats")
 		filemenu.addAction(actionLayerImport)
 		
+		# Main Menubar - Help menu
+		
+		filemenu = menubar.addMenu("&Help")
+		
+		actionHelpAbout = QAction("About openEarthCAD", self)
+		actionHelpAbout.setStatusTip("Information about openEarthCAD")
+		actionHelpAbout.triggered.connect(helpAbout)
+		filemenu.addAction(actionHelpAbout)
+		
+		actionQtAbout = QAction("About Qt", self)
+		actionQtAbout.setStatusTip("Information about the Qt Toolkit")
+		actionQtAbout.triggered.connect(QApplication.aboutQt)
+		filemenu.addAction(actionQtAbout)
+		
+		filemenu.addSeparator()
+		
+		actionHelpManual = QAction("Manual", self)
+		actionHelpManual.setStatusTip("Help Documentation")
+		filemenu.addAction(actionHelpManual)
+		
 	def dock_windows(self):
 		# Docked window: Plugins list
 		pluginDock = QDockWidget("Plugins", self)
@@ -124,6 +159,9 @@ class MainWindow(QMainWindow):
 		self._legend_ = QLabel("No legend available")
 		pluginDock.setWidget(self._legend_)
 		self.addDockWidget(Qt.RightDockWidgetArea, pluginDock)
+		
+		def openProjectFile(self):
+			project_name, _ = QFileDialog.getOpenFileName(self, "Open Project", "", "All Files (*);;Layer Files (*.lyr)")
 		
 app = QApplication(sys.argv)
 
