@@ -1,9 +1,7 @@
 # (C) Copyright 2024 Informed Technology Solutions, LLC 
 # SPDX-License-Identifier: BSD-3-Clause
 
-from globals import *
-
-OEapplication()
+from oeglobals import *
 
 def EnabledPlugins():
 	enabledPlugins = ["waterway", "ditch", "pad", "surface"]

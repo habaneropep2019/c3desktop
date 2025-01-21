@@ -8,14 +8,12 @@ from PySide6.QtGui import QAction
 from PySide6.QtCore import Qt
 from plugins import *
 from about_help import *
-from globals import *
+from oeglobals import *
 from projectWizard import *
 
 class MainWindow(QMainWindow):
 	def __init__(self):
 		super().__init__()
-		
-		OEapplication()
 		
 		self.setWindowTitle("openEarthCAD Engineer")
 		
@@ -73,6 +71,7 @@ class MainWindow(QMainWindow):
 		actionExit = QAction("Exit", self)
 		actionExit.setStatusTip("Exit the program")
 		filemenu.addAction(actionExit)
+		actionExit.triggered.connect(self.close)
 		
 		# Main Menubar - Edit menu
 		filemenu = menubar.addMenu("&Edit")
@@ -169,4 +168,3 @@ window = MainWindow()
 window.show()
 
 app.exec()
-		

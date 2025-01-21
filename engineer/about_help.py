@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: BSD-3-Clause
 
 from PySide6.QtWidgets import QApplication, QLabel, QDialog, QHBoxLayout
-from globals import *
+from oeglobals import *
 
 
 class aboutDialog(QDialog):
@@ -13,14 +13,13 @@ class aboutDialog(QDialog):
 		
 		self.setWindowTitle("About openEarthCAD")
 		
-		aboutContents = QLabel(f"This is openEarthCAD Engineer, version {oe_version}")
+		aboutContents = QLabel(f"This is openEarthCAD Engineer, version {OeGlobals.oe_version}")
 		
 		layout.addWidget(aboutContents)
 		
 		self.setLayout(layout)
 		
 def helpAbout():
-	OEapplication()
 	
 	helpAboutDialog = aboutDialog()
 	

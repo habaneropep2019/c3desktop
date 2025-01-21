@@ -1,10 +1,12 @@
 # (C) Copyright 2024 Informed Technology Solutions, LLC 
 # SPDX-License-Identifier: BSD-3-Clause
 
-from globals import *
+from oeglobals import *
+import os
 
 from PySide6.QtWidgets import QApplication, QLabel, QDialog, QGridLayout, QLineEdit, QComboBox, QPushButton, QFileDialog
 from PySide6.QtGui import QIntValidator
+
 
 class newProjectWizard(QDialog):
 	def __init__(self):
@@ -51,20 +53,22 @@ class newProjectWizard(QDialog):
 		layout.addWidget(nP_form_okButton, 6, 3)
 
 		def printForms():
-			projectName = nP_form_projectName.text()
-			projectCRS = nP_form_projectCRS.currentIndex()
-			projectUnits = nP_form_projectUnits.currentIndex()
-			projectPtDensity = nP_form_projectPtDensity.text()
-			print("Project name:", projectName)
-			print("Project CRS:", projectCRS)
-			print("Project Unit of Measure:", projectUnits)
-			print("Project Point Density:", projectPtDensity)
+			OeApp.projectName = nP_form_projectName.text()
+			OeApp.projectCRS = nP_form_projectCRS.currentIndex()
+			OeApp.projectUnits = nP_form_projectUnits.currentIndex()
+			OeApp.projectPtDensity = nP_form_projectPtDensity.text()
+
+			if OeGlobals.debug_mode:
+				print("Project name:", OeApp.projectName)
+				print("Project CRS:", OeApp.projectCRS)
+				print("Project Unit of Measure:", OeApp.projectUnits)
+				print("Project Point Density:", OeApp.projectPtDensity)
 
 		def nPSaveDialog() :
-			nPFileDialog = QFileDialog(self)
-			nPFileDialog.setFileMode(QFileDialog.AnyFile)
-			nPFileDialog.setNameFilter("Layer Files (*.lyr)")
-			nPFileDialog.exec()
+			nPFileDialog = QFileDialog.getSaveFileName(None, "Save Project", "", "Layer Files (*.lyr)")
+			OeApp.projectFileName = nPFileDialog[0]
+			if OeGlobals.debug_mode:
+				print("New Project Filename:", OeApp.projectFileName)
 		
 		nP_form_okButton.clicked.connect(printForms)
 		nP_form_okButton.clicked.connect(nPSaveDialog)
@@ -74,10 +78,8 @@ class newProjectWizard(QDialog):
 		self.setLayout(layout)
 		
 def newProject_Wizard():
-	OEapplication()
 	
 	projectWizardDialog = newProjectWizard()
 	
 	projectWizardDialog.exec()
 	
-	#print(nP_form_projectName.text)
