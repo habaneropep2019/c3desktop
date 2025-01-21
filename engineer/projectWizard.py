@@ -4,6 +4,7 @@
 from globals import *
 
 from PySide6.QtWidgets import QApplication, QLabel, QDialog, QGridLayout, QLineEdit, QComboBox, QPushButton, QFileDialog
+from PySide6.QtGui import QIntValidator
 
 class newProjectWizard(QDialog):
 	def __init__(self):
@@ -24,13 +25,19 @@ class newProjectWizard(QDialog):
 		
 		nP_label_projectCRS = QLabel("Choose a CRS:")
 		nP_form_projectCRS = QComboBox()
-		nP_form_projectCRS.addItems(["WGS84", "Undefined"])
+		nP_form_projectCRS.addItems(["WGS84", "Undefined"]) # IMPORTANT: Retain order of items! These are parsed by index, not text!
 		
 		nP_label_projectUnits = QLabel("Choose a unit of measure system:")
 		nP_form_projectUnits = QComboBox()
-		nP_form_projectUnits.addItems(["feet/inches, acres, cubic yards", "Undefined"])
+		nP_form_projectUnits.addItems(["feet/inches, acres, cubic yards", "Undefined"])  # IMPORTANT: Retain order of items! These are parsed by index, not text!
+
+		nP_label_projectPtDensity = QLabel("Project default point density (in feet):")
+		nP_form_projectPtDensity = QLineEdit()
+		nP_form_projectPtDensity.setText("1")
+		nP_form_projectPtDensity.setValidator(QIntValidator())
 		
 		nP_form_okButton = QPushButton("Next", self)
+
 		
 		layout.addWidget(nP_label_info, 0, 1)
 		layout.addWidget(nP_label_projectName, 1, 0)
@@ -39,9 +46,29 @@ class newProjectWizard(QDialog):
 		layout.addWidget(nP_form_projectCRS, 2, 1)
 		layout.addWidget(nP_label_projectUnits, 3, 0)
 		layout.addWidget(nP_form_projectUnits, 3, 1)
+		layout.addWidget(nP_label_projectPtDensity, 4, 0)
+		layout.addWidget(nP_form_projectPtDensity, 4, 1)
 		layout.addWidget(nP_form_okButton, 6, 3)
+
+		def printForms():
+			projectName = nP_form_projectName.text()
+			projectCRS = nP_form_projectCRS.currentIndex()
+			projectUnits = nP_form_projectUnits.currentIndex()
+			projectPtDensity = nP_form_projectPtDensity.text()
+			print("Project name:", projectName)
+			print("Project CRS:", projectCRS)
+			print("Project Unit of Measure:", projectUnits)
+			print("Project Point Density:", projectPtDensity)
+
+		def nPSaveDialog() :
+			nPFileDialog = QFileDialog(self)
+			nPFileDialog.setFileMode(QFileDialog.AnyFile)
+			nPFileDialog.setNameFilter("Layer Files (*.lyr)")
+			nPFileDialog.exec()
 		
-		#nP_form_okButton.clicked.connect(nPW_SaveDialog)
+		nP_form_okButton.clicked.connect(printForms)
+		nP_form_okButton.clicked.connect(nPSaveDialog)
+		nP_form_okButton.clicked.connect(self.close)
 		
 		
 		self.setLayout(layout)
@@ -53,4 +80,4 @@ def newProject_Wizard():
 	
 	projectWizardDialog.exec()
 	
-	print(nP_form_projectName)
+	#print(nP_form_projectName.text)
