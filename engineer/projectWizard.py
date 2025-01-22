@@ -7,6 +7,7 @@ import os
 from PySide6.QtWidgets import QApplication, QLabel, QDialog, QGridLayout, QLineEdit, QComboBox, QPushButton, QFileDialog
 from PySide6.QtGui import QIntValidator
 
+from layerfile import *
 
 class newProjectWizard(QDialog):
 	def __init__(self):
@@ -72,6 +73,7 @@ class newProjectWizard(QDialog):
 		
 		nP_form_okButton.clicked.connect(printForms)
 		nP_form_okButton.clicked.connect(nPSaveDialog)
+		nP_form_okButton.clicked.connect(LayerFile.create)
 		nP_form_okButton.clicked.connect(self.close)
 		
 		

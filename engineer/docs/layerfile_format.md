@@ -8,7 +8,7 @@ There are two types of tables: Index tables, and layer tables.
 
 - **Index Tables** are used to store basic information about layer tables. In a default layer file, there are typically two or more index tables, depending on which plugins are in use.
   
-  - `BENCHMARKS` lists all tables that contain a reference point.
+  - `REFERENCE_POINTS` lists all tables that contain a reference point.
   
   - `LAYERS` catalogues all the data layers, usually consisting of elevation and latitude/longitude points
   
