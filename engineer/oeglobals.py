@@ -10,7 +10,7 @@ class OeGlobals:
 	debug_mode = 0 # 0 is disabled, 1 is enabled
 
 class OeApp:
-	SaveStatus = False # True indicates it is saved. False (or 0) indicates it is not saved. This should NEVER be directly written by a plugin, though it can be read directly.
+	SaveStatus = True # True indicates it is saved, and is the default. False (or 0) indicates it is not saved. This should NEVER be directly accessed by a plugin. Use OeApp.checkIfSaved
 	projectName = None
 	projectCRS = None
 	projectUnits = None

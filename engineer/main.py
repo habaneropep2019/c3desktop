@@ -171,7 +171,7 @@ class MainWindow(QMainWindow):
 			shouldISave = OeApp.notSavedWarning()
 			if shouldISave is True:
 				event.ignore()
-				# Insert save logic here
+				# Insert save logic here, and need to actually close it down after a successful save
 			else:
 				event.accept() # Accept the close event because user doesn't care if they lost work
 
