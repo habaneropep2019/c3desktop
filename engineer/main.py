@@ -3,7 +3,7 @@
 
 import sys
 from PySide6 import QtCore, QtWidgets, QtGui
-from PySide6.QtWidgets import QApplication, QMainWindow, QMenuBar, QLabel, QDockWidget, QListWidget, QDialog, QPushButton, QFileDialog
+from PySide6.QtWidgets import QApplication, QMainWindow, QMenuBar, QLabel, QDockWidget, QListWidget, QDialog, QPushButton, QFileDialog, QMessageBox
 from PySide6.QtGui import QAction
 from PySide6.QtCore import Qt
 from plugins import *
@@ -163,6 +163,18 @@ class MainWindow(QMainWindow):
 		
 		def openProjectFile(self):
 			project_name, _ = QFileDialog.getOpenFileName(self, "Open Project", "", "All Files (*);;Layer Files (*.lyr)")
+
+	def closeEvent(self, event):
+		if OeApp.checkIfSaved is True:
+			event.accept()
+		else:
+			shouldISave = OeApp.notSavedWarning()
+			if shouldISave is True:
+				event.ignore()
+				# Insert save logic here
+			else:
+				event.accept() # Accept the close event because user doesn't care if they lost work
+
 		
 app = QApplication(sys.argv)
 
