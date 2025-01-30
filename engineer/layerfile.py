@@ -16,11 +16,26 @@ class LayerFile:
 
         cursor = connection.cursor()
         cursor.execute("CREATE TABLE LAYERS (UUID TEXT, Type TEXT, Name TEXT, Qualification TEXT)")
+
         cursor.execute("CREATE TABLE PROJECT ('Project Name' TEXT, 'Creation Date' INTEGER, Plugins TEXT, OE_VERSION INTEGER)")
         cursor.execute(
             "INSERT INTO PROJECT VALUES (?, ?, ?, ?)",
             (OeApp.projectName, today, None, OeGlobals.oe_version)
         )
 
+        cursor.execute("CREATE TABLE REFERENCE_POINTS (UUID TEXT, Name TEXT, Type TEXT)")
+
         connection.commit()
         connection.close()
+
+
+    # LayerFile.open - opens an existing layerfile
+    # projectFileName is obtained from OeApp so this function doesn't work unless the Open Project dialog
+    # has been run OR a filename was passed as an argument to the main program. Either way, OeApp.projectFileName
+    # must be set.
+ #   def open():
+        # Open stuff
+
+    # LayerFile.close - closes the currently open project
+#    def close():
+        # Close stuff

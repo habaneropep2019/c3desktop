@@ -26,9 +26,15 @@ class MainWindow(QMainWindow):
 		def openProjectFile(self):
 			global project_name
 			project_name = QFileDialog.getOpenFileName(None, "Open Project", "", "Layer Files (*.lyr)")
-			print(project_name[0])
-			# TODO: Signal a bunch of stuff when a project file is opened. Save an existing one if opened already.
-		
+			if OeGlobals.debug_mode:
+				print("openProjectFile: Project File Name:", project_name[0])
+			if project_name != OeApp.projectFileName: # If a project is already opened
+				if OeApp.SaveStatus: # If currently open project is saved
+					OeApp.ProjectFileName = project_name[0] # Update currently open project
+					# Need to close currently open project
+				else:
+					OeGlobals.NotSavedWarning() # Display error that current project is not saved. Do nothing.
+
 		# Main Central Widget
 		centralLabel = QLabel("This is the main widget")
 		centralLabel.setAlignment(Qt.AlignCenter)
@@ -61,10 +67,6 @@ class MainWindow(QMainWindow):
 		actionPrjSave = QAction("Save Project", self)
 		actionPrjSave.setStatusTip("Save project to disk")
 		filemenu.addAction(actionPrjSave)
-		
-		actionPrjSaveAs = QAction("Save Project As", self)
-		actionPrjSaveAs.setStatusTip("Save project to disk")
-		filemenu.addAction(actionPrjSaveAs)
 		
 		filemenu.addSeparator()
 		
