@@ -16,9 +16,7 @@ class MainWindow(QMainWindow):
 		
 		self.setWindowTitle("openEarthCAD Operator")
 		
-		self.setMinimumSize(1280, 900)
-		
-		self.dock_windows()
+		self.setMinimumSize(1280, 800)
 
 		# Main Central Widget
 		centralLabel = QLabel("This is the main widget")
