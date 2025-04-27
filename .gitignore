@@ -1,3 +1,4 @@
 /.project
 /.pydevproject
-/operator/__pycache__/
+/__pycache__
+engineer/__pycache__
