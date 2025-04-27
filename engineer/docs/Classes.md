@@ -39,7 +39,7 @@ Accepts no arguments. Displays a error message box that says the current project
 
 # Import: `layerfile`
 
-This provides functions for working with layerfiles. A connection object, `connection`, is provided for access to the database.
+This provides functions for working with layerfiles. A connection object, `layerfile`, is provided for access to the database.
 
 ## Classes
 
@@ -52,5 +52,7 @@ This class provides functions for creating, opening, and closing layerfiles. It 
 Creates a new layerfile and prepopulates it with required default information. Information is obtained from the `project`.* variables in OeApp, rather than being passed as string arguments. This function will open a connection to the layerfile, populate it, and then immediately commit and close the connection. You will need to call `open()` to actually open the layerfile for use after calling `create`.
 
 #### `open()`
+
+Opens an existing layerfile and loads the basic project information from it into `OeApp.project*` variables.
 
 #### `close()`
