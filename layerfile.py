@@ -17,25 +17,47 @@ class LayerFile:
         cursor = connection.cursor()
         cursor.execute("CREATE TABLE LAYERS (UUID TEXT, Type TEXT, Name TEXT, Qualification TEXT)")
 
-        cursor.execute("CREATE TABLE PROJECT ('Project Name' TEXT, 'Creation Date' INTEGER, Plugins TEXT, OE_VERSION INTEGER)")
+        cursor.execute("CREATE TABLE PROJECT (Project_Name TEXT, 'Creation_Date' INTEGER, Plugins TEXT, OE_VERSION INTEGER)")
         cursor.execute(
             "INSERT INTO PROJECT VALUES (?, ?, ?, ?)",
             (OeApp.projectName, today, None, OeGlobals.oe_version)
         )
 
-        cursor.execute("CREATE TABLE REFERENCE_POINTS (UUID TEXT, Name TEXT, Type TEXT)")
+        cursor.execute("CREATE TABLE STAKES (UUID TEXT, Name TEXT, Type TEXT, LAT TEXT, LONG TEXT, ALT TEXT, TASK TEXT)")
 
         connection.commit()
         connection.close()
 
+    def loadProjectInfo(attribute):
+        connection = sqlite3.connect(OeApp.projectFileName)
+        if OeGlobals.debug_mode:
+            print("Value of Attribute:", attribute)
 
-    # LayerFile.open - opens an existing layerfile
-    # projectFileName is obtained from OeApp so this function doesn't work unless the Open Project dialog
-    # has been run OR a filename was passed as an argument to the main program. Either way, OeApp.projectFileName
-    # must be set.
- #   def open():
-        # Open stuff
+        cursor = connection.cursor()
 
-    # LayerFile.close - closes the currently open project
-#    def close():
-        # Close stuff
+        cursor.execute("SELECT * FROM PROJECT")
+
+        projectInfo = cursor.fetchone()
+
+        match attribute:
+            case "Project_Name":
+                OeGlobals.projectName = projectInfo[0]
+                print("Project Name as loaded:", projectInfo[0])
+            case "Creation_Date":
+                if OeGlobals.debug_mode:
+                    print("Selected Project Attribute:", attribute)
+                    print("Attribute Value:", projectInfo[1])
+                return projectInfo[1]
+            case "Plugins":
+                if OeGlobals.debug_mode:
+                    print("Selected Project Attribute:", attribute)
+                    print("Attribute Value:", projectInfo[2])
+                return projectInfo[2]
+            case "OE_VERSION":
+                if OeGlobals.debug_mode:
+                    print("Selected Project Attribute:", attribute)
+                    print("Attribute Value:", projectInfo[3])
+                return projectInfo[3]
+
+        connection.commit()
+        connection.close()
