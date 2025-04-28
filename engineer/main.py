@@ -35,7 +35,7 @@ class MainWindow(QMainWindow):
 				else:
 					OeGlobals.NotSavedWarning() # Display error that current project is not saved. Do nothing.
 			# Load project information from layerfile
-			LayerFile.loadProjectInfo('Project_Name')
+			LayerFile.loadProjectInfo('All')
 
 		# Main Central Widget
 		centralLabel = QLabel("This is the main widget")
