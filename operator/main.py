@@ -24,7 +24,7 @@ class MainWindow(QMainWindow):
 		
 		self.setCentralWidget(centralLabel)
 		
-
+# TODO - This should be changed to automatically save any open projects.
 	def closeEvent(self, event):
 		if OeApp.checkIfSaved is True:
 			event.accept()
