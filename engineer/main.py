@@ -30,10 +30,12 @@ class MainWindow(QMainWindow):
 				print("openProjectFile: Project File Name:", project_name[0])
 			if project_name != OeApp.projectFileName: # If a project is already opened
 				if OeApp.SaveStatus: # If currently open project is saved
-					OeApp.ProjectFileName = project_name[0] # Update currently open project
+					OeApp.projectFileName = project_name[0] # Update currently open project
 					# Need to close currently open project
 				else:
 					OeGlobals.NotSavedWarning() # Display error that current project is not saved. Do nothing.
+			# Load project information from layerfile
+			LayerFile.loadProjectInfo('Project_Name')
 
 		# Main Central Widget
 		centralLabel = QLabel("This is the main widget")
@@ -170,8 +172,10 @@ class MainWindow(QMainWindow):
 		else:
 			shouldISave = OeApp.notSavedWarning()
 			if shouldISave is True:
+				#Need to fix the saving mechanism so we debug warn
+				if OeGlobals.debug_mode:
+					print("Warning: TODO: Fix closeEvent, event is currently ignored with no action.")
 				event.ignore()
-				# Insert save logic here, and need to actually close it down after a successful save
 			else:
 				event.accept() # Accept the close event because user doesn't care if they lost work
 

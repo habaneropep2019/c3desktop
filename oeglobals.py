@@ -7,7 +7,7 @@ from PySide6.QtWidgets import QApplication, QMessageBox
 
 class OeGlobals:
 	oe_version = "1.0"
-	debug_mode = 0 # 0 is disabled, 1 is enabled
+	debug_mode = 1 # 0 is disabled, 1 is enabled
 
 class OeApp:
 	SaveStatus = True # True indicates it is saved, and is the default. False (or 0) indicates it is not saved. This should NEVER be directly accessed by a plugin. Use OeApp.checkIfSaved
