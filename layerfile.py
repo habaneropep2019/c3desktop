@@ -25,6 +25,8 @@ class LayerFile:
 
         cursor.execute("CREATE TABLE STAKES (UUID TEXT, Name TEXT, Type TEXT, LAT TEXT, LONG TEXT, ALT TEXT, TASK TEXT)")
 
+        cursor.execute("CREATE TABLE BASES (Name TEXT, LAT TEXT, LONG TEXT, ALT TEXT)")
+
         connection.commit()
         connection.close()
 
@@ -90,6 +92,56 @@ class LayerFile:
                 OeApp.projectPtDensity = projectInfo[6]
                 if OeGlobals.debug_mode:
                     print("Project Default Point Density as loaded:", projectInfo[6])
+
+        connection.commit()
+        connection.close()
+
+    # Add a new table. This is used to add stake and layer tables. It will generate a new table with appropriate entries, and in the case of layers, will return a UUID. Stake tables return nothing.
+    def addTable(tableType):
+
+        connection = sqlite3.connect(OeApp.projectFileName)
+        if OeGlobals.debug_mode:
+            print("Value of tableType:", tableType)
+
+        cursor = connection.cursor()
+
+        match tableType:
+            case "Stake":
+                cursor.execute("CREATE TABLE LAYERS (UUID TEXT, Type TEXT, Name TEXT, Qualification TEXT)")
+            case "Layer":
+                cursor.execute("CREATE TABLE LAYERS (UUID TEXT, Type TEXT, Name TEXT, Qualification TEXT)")
+
+        connection.commit()
+        connection.close()
+
+class StakeLayer:
+
+    def newStake(UUID, Name, Type, LAT, LONG, ALT, TASK):
+
+        connection = sqlite3.connect(OeApp.projectFileName)
+
+        cursor = connection.cursor()
+
+        cursor.execute(
+            "INSERT INTO STAKES VALUES (?, ?, ?, ?, ?, ?, ?)",
+            (UUID, Name, Type, LAT, LONG, ALT, TASK)
+        )
+
+        connection.commit()
+        connection.close()
+
+class BaseLayer:
+
+    def newBase(Name, LAT, LONG, ALT):
+
+        connection = sqlite3.connect(OeApp.projectFileName)
+
+        cursor = connection.cursor()
+
+        cursor.execute(
+            "INSERT INTO BASES VALUES (?, ?, ?, ?)",
+            (Name, LAT, LONG, ALT)
+        )
 
         connection.commit()
         connection.close()
