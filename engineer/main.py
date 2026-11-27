@@ -1,5 +1,5 @@
 # (C) Copyright 2024 Informed Technology Solutions, LLC 
-# SPDX-License-Identifier: BSD-3-Clause
+# SPDX-License-Identifier: MPL-2.0
 
 import sys
 from PySide6 import QtCore, QtWidgets, QtGui

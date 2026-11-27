@@ -1,5 +1,6 @@
 # (C) Copyright 2025 Informed Technology Solutions, LLC
-# SPDX-License-Identifier: BSD-3-Clause
+# (C) Copyright 2025, 2026 Alec Bloss
+# SPDX-License-Identifier: MPL-2.0
 
 from oeglobals import *
 import sqlite3
