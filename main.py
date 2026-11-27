@@ -1,6 +1,5 @@
-# (C) Copyright 2021, 2022 Alec Bloss
-# (C) Copyright 2024 Informed Technology Solutions, LLC
-# SPDX-License-Identifier: BSD-3-Clause
+# (C) Copyright 2021, 2022, 2026 Alec Bloss
+# SPDX-License-Identifier: MPL-2.0
 
 import sys
 from PySide6 import QtWidgets, QtGui, Qt, QtCore

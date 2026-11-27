@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# (C) Copyright 2024 Informed Technology Solutions, LLC
-# SPDX-License-Identifier: BSD-3-Clause
+# (C) Copyright 2026 Alec Bloss
+# SPDX-License-Identifier: MPL-2.0
 
 pyside6-uic window.ui -o window.py
 
