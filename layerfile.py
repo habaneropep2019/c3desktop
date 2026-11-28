@@ -2,147 +2,220 @@
 # (C) Copyright 2025, 2026 Alec Bloss
 # SPDX-License-Identifier: MPL-2.0
 
-from oeglobals import *
 import sqlite3
 import datetime
+import uuid
+from c3globals import C3Globals, C3App
+
 
 class LayerFile:
 
-    # LayerFile.create - creates a new layerfile, including all the basic tables required.
-    # project(Name, CRS, Units, PtDensity, FileName are all gotten from OeApp)
+    @staticmethod
+    def _get_connection():
+        """Helper to get a database connection with row access by column name."""
+        if not C3App.projectFileName:
+            raise ValueError("Cannot access database: C3App.projectFileName is not set.")
+        conn = sqlite3.connect(C3App.projectFileName)
+        conn.row_factory = sqlite3.Row
+        return conn
+
+    @staticmethod
     def create():
-        connection = sqlite3.connect(OeApp.projectFileName)
+        """
+        Creates a new layerfile on disk with the core C3 tables.
+        Uses attributes populated on C3App.
+        """
+        if not C3App.projectFileName:
+            raise ValueError("No file path specified in C3App.projectFileName")
 
-        today = datetime.date.today()
+        conn = sqlite3.connect(C3App.projectFileName)
+        try:
+            cursor = conn.cursor()
+            today = datetime.date.today().isoformat()
 
-        cursor = connection.cursor()
-        cursor.execute("CREATE TABLE LAYERS (UUID TEXT, Type TEXT, Name TEXT, Qualification TEXT)")
+            cursor.execute("""
+                CREATE TABLE IF NOT EXISTS LAYERS (
+                    UUID TEXT PRIMARY KEY,
+                    Type TEXT,
+                    Name TEXT,
+                    Qualification TEXT
+                )
+            """)
 
-        cursor.execute("CREATE TABLE PROJECT (Project_Name TEXT, Creation_Date INTEGER, Plugins TEXT, OE_VERSION INTEGER, CRS TEXT, Units TEXT, PtDensity INTEGER)")
-        cursor.execute(
-            "INSERT INTO PROJECT VALUES (?, ?, ?, ?, ?, ?, ?)",
-            (OeApp.projectName, today, None, OeGlobals.oe_version, OeApp.projectCRS, OeApp.projectUnits, OeApp.projectPtDensity)
-        )
+            cursor.execute("""
+                CREATE TABLE IF NOT EXISTS PROJECT (
+                    Project_Name TEXT,
+                    Creation_Date TEXT,
+                    Plugins TEXT,
+                    C3_VERSION TEXT,
+                    CRS TEXT,
+                    Units TEXT,
+                    PtDensity INTEGER
+                )
+            """)
 
-        cursor.execute("CREATE TABLE STAKES (UUID TEXT, Name TEXT, Type TEXT, LAT TEXT, LONG TEXT, ALT TEXT, TASK TEXT)")
+            cursor.execute(
+                """
+                INSERT INTO PROJECT (
+                    Project_Name, Creation_Date, Plugins,
+                    C3_VERSION, CRS, Units, PtDensity
+                ) VALUES (?, ?, ?, ?, ?, ?, ?)
+                """,
+                (
+                    C3App.projectName,
+                    today,
+                    None,
+                    C3Globals.c3_version,
+                    C3App.projectCRS,
+                    C3App.projectUnits,
+                    C3App.projectPtDensity
+                )
+            )
 
-        cursor.execute("CREATE TABLE BASES (Name TEXT, LAT TEXT, LONG TEXT, ALT TEXT)")
+            cursor.execute("""
+                CREATE TABLE IF NOT EXISTS STAKES (
+                    UUID TEXT PRIMARY KEY,
+                    Name TEXT,
+                    Type TEXT,
+                    LAT TEXT,
+                    LONG TEXT,
+                    ALT TEXT,
+                    TASK TEXT
+                )
+            """)
 
-        connection.commit()
-        connection.close()
+            cursor.execute("""
+                CREATE TABLE IF NOT EXISTS BASES (
+                    Name TEXT PRIMARY KEY,
+                    LAT TEXT,
+                    LONG TEXT,
+                    ALT TEXT
+                )
+            """)
 
-    def loadProjectInfo(attribute):
-        connection = sqlite3.connect(OeApp.projectFileName)
-        if OeGlobals.debug_mode:
-            print("Value of Attribute:", attribute)
+            conn.commit()
+            if C3Globals.debug_mode:
+                print(f"Project database created at: {C3App.projectFileName}")
+        finally:
+            conn.close()
 
-        cursor = connection.cursor()
+    @staticmethod
+    def loadProjectInfo(attribute="All"):
+        """
+        Reads project metadata from the PROJECT table and updates C3App attributes.
+        """
+        conn = LayerFile._get_connection()
+        try:
+            cursor = conn.cursor()
+            cursor.execute("SELECT * FROM PROJECT LIMIT 1")
+            row = cursor.fetchone()
 
-        cursor.execute("SELECT * FROM PROJECT")
+            if row is None:
+                raise ValueError("Project file is empty or corrupted: no PROJECT records found.")
 
-        projectInfo = cursor.fetchone()
+            # Support both new C3_VERSION and legacy OE_VERSION column names
+            version_col = "C3_VERSION" if "C3_VERSION" in row.keys() else "OE_VERSION"
 
-        match attribute:
-            case "Project_Name":
-                OeGlobals.projectName = projectInfo[0]
-                if OeGlobals.debug_mode:
-                    print("Project Name as loaded:", projectInfo[0])
-            case "Creation_Date":
-                # We don't really use this right now but it's here to be used in the future
-                if OeGlobals.debug_mode:
-                    print("Project Creation Date as loaded:", projectInfo[1])
-            case "Plugins":
-                # We're not using this right now but we will be soon.
-                if OeGlobals.debug_mode:
-                    print("Project Plugins as loaded:", projectInfo[2])
-            case "OE_VERSION":
-                # This isn't implemented anywhere yet but once the format is stablized it'll be used to check for version incompatibilities.
-                if OeGlobals.debug_mode:
-                    print("Project OE_VERSION as loaded:", projectInfo[3])
-            case "CRS":
-                OeApp.projectCRS = projectInfo[4]
-                if OeGlobals.debug_mode:
-                    print("Project CRS as loaded:", projectInfo[4])
-            case "Units":
-                OeApp.projectUnits = projectInfo[5]
-                if OeGlobals.debug_mode:
-                    print("Project Units as loaded:", projectInfo[5])
-            case "PtDensity":
-                OeApp.projectPtDensity = projectInfo[6]
-                if OeGlobals.debug_mode:
-                    print("Project Default Point Density as loaded:", projectInfo[6])
-            case "All":
-                OeGlobals.projectName = projectInfo[0]
-                if OeGlobals.debug_mode:
-                    print("Project Name as loaded:", projectInfo[0])
-                # We don't really use this right now but it's here to be used in the future
-                if OeGlobals.debug_mode:
-                    print("Project Creation Date as loaded:", projectInfo[1])
-                # We're not using this right now but we will be soon.
-                if OeGlobals.debug_mode:
-                    print("Project Plugins as loaded:", projectInfo[2])
-                 # This isn't implemented anywhere yet but once the format is stablized it'll be used to check for version incompatibilities.
-                if OeGlobals.debug_mode:
-                    print("Project OE_VERSION as loaded:", projectInfo[3])
-                OeApp.projectCRS = projectInfo[4]
-                if OeGlobals.debug_mode:
-                    print("Project CRS as loaded:", projectInfo[4])
-                OeApp.projectUnits = projectInfo[5]
-                if OeGlobals.debug_mode:
-                    print("Project Units as loaded:", projectInfo[5])
-                OeApp.projectPtDensity = projectInfo[6]
-                if OeGlobals.debug_mode:
-                    print("Project Default Point Density as loaded:", projectInfo[6])
+            if attribute in ("Project_Name", "All"):
+                C3App.projectName = row["Project_Name"]
+                if C3Globals.debug_mode:
+                    print("Loaded Project Name:", C3App.projectName)
 
-        connection.commit()
-        connection.close()
+            if attribute in ("Creation_Date", "All"):
+                if C3Globals.debug_mode:
+                    print("Loaded Creation Date:", row["Creation_Date"])
 
-    # Add a new table. This is used to add stake and layer tables. It will generate a new table with appropriate entries, and in the case of layers, will return a UUID. Stake tables return nothing.
-    def addTable(tableType):
+            if attribute in ("Plugins", "All"):
+                if C3Globals.debug_mode:
+                    print("Loaded Plugins:", row["Plugins"])
 
-        connection = sqlite3.connect(OeApp.projectFileName)
-        if OeGlobals.debug_mode:
-            print("Value of tableType:", tableType)
+            if attribute in ("C3_VERSION", "OE_VERSION", "All"):
+                if C3Globals.debug_mode and version_col in row.keys():
+                    print("Loaded Version:", row[version_col])
 
-        cursor = connection.cursor()
+            if attribute in ("CRS", "All"):
+                C3App.projectCRS = row["CRS"]
+                if C3Globals.debug_mode:
+                    print("Loaded CRS:", C3App.projectCRS)
 
-        match tableType:
-            case "Stake":
-                cursor.execute("CREATE TABLE LAYERS (UUID TEXT, Type TEXT, Name TEXT, Qualification TEXT)")
-            case "Layer":
-                cursor.execute("CREATE TABLE LAYERS (UUID TEXT, Type TEXT, Name TEXT, Qualification TEXT)")
+            if attribute in ("Units", "All"):
+                C3App.projectUnits = row["Units"]
+                if C3Globals.debug_mode:
+                    print("Loaded Units:", C3App.projectUnits)
 
-        connection.commit()
-        connection.close()
+            if attribute in ("PtDensity", "All"):
+                C3App.projectPtDensity = row["PtDensity"]
+                if C3Globals.debug_mode:
+                    print("Loaded PtDensity:", C3App.projectPtDensity)
+
+        finally:
+            conn.close()
+
+    @staticmethod
+    def addTable(tableType: str, name: str = "", qualification: str = "") -> str:
+        """
+        Registers a new layer entry in the LAYERS table and returns its UUID.
+        """
+        new_uuid = str(uuid.uuid4())
+        conn = LayerFile._get_connection()
+        try:
+            cursor = conn.cursor()
+
+            cursor.execute("""
+                CREATE TABLE IF NOT EXISTS LAYERS (
+                    UUID TEXT PRIMARY KEY,
+                    Type TEXT,
+                    Name TEXT,
+                    Qualification TEXT
+                )
+            """)
+
+            cursor.execute(
+                "INSERT INTO LAYERS (UUID, Type, Name, Qualification) VALUES (?, ?, ?, ?)",
+                (new_uuid, tableType, name, qualification)
+            )
+
+            conn.commit()
+            if C3Globals.debug_mode:
+                print(f"Added layer {tableType} ({new_uuid})")
+            return new_uuid
+        finally:
+            conn.close()
+
 
 class StakeLayer:
 
-    def newStake(UUID, Name, Type, LAT, LONG, ALT, TASK):
+    @staticmethod
+    def newStake(UUID=None, Name="", Type="", LAT="", LONG="", ALT="", TASK=""):
+        """Adds a new stake entry to the STAKES table."""
+        if not UUID:
+            UUID = str(uuid.uuid4())
 
-        connection = sqlite3.connect(OeApp.projectFileName)
+        conn = LayerFile._get_connection()
+        try:
+            cursor = conn.cursor()
+            cursor.execute(
+                "INSERT INTO STAKES (UUID, Name, Type, LAT, LONG, ALT, TASK) VALUES (?, ?, ?, ?, ?, ?, ?)",
+                (UUID, Name, Type, LAT, LONG, ALT, TASK)
+            )
+            conn.commit()
+            return UUID
+        finally:
+            conn.close()
 
-        cursor = connection.cursor()
-
-        cursor.execute(
-            "INSERT INTO STAKES VALUES (?, ?, ?, ?, ?, ?, ?)",
-            (UUID, Name, Type, LAT, LONG, ALT, TASK)
-        )
-
-        connection.commit()
-        connection.close()
 
 class BaseLayer:
 
-    def newBase(Name, LAT, LONG, ALT):
-
-        connection = sqlite3.connect(OeApp.projectFileName)
-
-        cursor = connection.cursor()
-
-        cursor.execute(
-            "INSERT INTO BASES VALUES (?, ?, ?, ?)",
-            (Name, LAT, LONG, ALT)
-        )
-
-        connection.commit()
-        connection.close()
+    @staticmethod
+    def newBase(Name, LAT="", LONG="", ALT=""):
+        """Adds a new base station entry to the BASES table."""
+        conn = LayerFile._get_connection()
+        try:
+            cursor = conn.cursor()
+            cursor.execute(
+                "INSERT INTO BASES (Name, LAT, LONG, ALT) VALUES (?, ?, ?, ?)",
+                (Name, LAT, LONG, ALT)
+            )
+            conn.commit()
+        finally:
+            conn.close()
