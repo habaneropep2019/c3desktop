@@ -8,7 +8,7 @@ from PySide6.QtGui import QAction
 from PySide6.QtCore import Qt
 from plugins import *
 from about_help import *
-from oeglobals import *
+from c3globals import *
 from projectWizard import *
 
 class MainWindow(QMainWindow):

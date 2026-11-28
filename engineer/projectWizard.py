@@ -1,7 +1,7 @@
 # (C) Copyright 2024 Informed Technology Solutions, LLC 
 # SPDX-License-Identifier: MPL-2.0
 
-from oeglobals import *
+from c3globals import *
 import os
 
 from PySide6.QtWidgets import QApplication, QLabel, QDialog, QGridLayout, QLineEdit, QComboBox, QPushButton, QFileDialog

@@ -1,4 +1,4 @@
-# Introduction to the Layer File Format
+# Introduction to the Layer File Format, version 1.0
 
 openEarthWorks stores projects in a file with an extension of `*.lyr`. This is a _layer file_.
 

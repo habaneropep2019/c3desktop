@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: MPL-2.0
 
 from PySide6.QtWidgets import QApplication, QLabel, QDialog, QHBoxLayout
-from oeglobals import *
+from c3globals import *
 
 
 class aboutDialog(QDialog):
